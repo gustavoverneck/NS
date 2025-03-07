@@ -20,12 +20,12 @@
 //#define LSV_TERMO_ISOLADO
 
 /* BROYDEN: Defines Broyden tolerances and precision */
-#define BROYDEN_EPS 1.0e-19
-#define BROYDEN_TOLF 1.0e-12
-#define BROYDEN_TOLX 1.0e-19
-#define BROYDEN_STPMX 100.0
-#define BROYDEN_MAXITS 40000
-#define BROYDEN_NP 40
+#define BROYDEN_EPS 1.0e-19     // Precision for the Broyden method
+#define BROYDEN_TOLF 1.0e-12    // Tolerance for the function value
+#define BROYDEN_TOLX 1.0e-19    // Tolerance for the variable
+#define BROYDEN_STPMX 100.0     // Maximum step size
+#define BROYDEN_MAXITS 40000    // Maximum number of iterations
+#define BROYDEN_NP 40           // Number of points for the Broyden method
 // FIX: NEED TO CHANGE BROYDEN'S FUNCTION IN ACCORDANCE WITH THE DEFINITIONS
 
 // --------------------------------------------------------------------------------

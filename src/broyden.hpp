@@ -8,22 +8,22 @@
 #include <algorithm> // For std::max
 #include <functional> // For std::function
 
+using namespace std;
 
 // Global variables (extern to avoid multiple definition errors)
 extern int nn;                    
-extern std::vector<double> fvec;  
+extern vector<double> fvec;  
 
 // Function prototypes
 
 // Evaluates the system of nonlinear equations
-std::vector<double> funcv(const std::vector<double>& x);
+vector<double> funcv(const vector<double>& x);
 
 // Computes the objective function: 0.5 * ||f(x)||^2
-double fmin(const std::vector<double>& x);
+double fmin(const vector<double>& x);
 
 // Solves a linear system A * p = b using Gaussian elimination
-std::vector<double> gaussElimination(const std::vector<std::vector<double>>& A_in,
-                                     const std::vector<double>& b_in);
+vector<double> gaussElimination(const vector<vector<double>>& A_in, const vector<double>& b_in);
 
 // Implements Broyden's method to solve f(x)=0
-std::vector<double> broyden(std::vector<double>& x, std::function<std::vector<double>(const std::vector<double>&)> funcv);  
+vector<double> broyden(vector<double>& x, function<vector<double>(const vector<double>&)> funcv);  

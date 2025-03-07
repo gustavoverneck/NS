@@ -1,4 +1,5 @@
 #include "broyden.hpp"
+#include <functional>
 
 // Global parameters
 constexpr int NP = BROYDEN_NP;         // Maximum system size
@@ -11,17 +12,8 @@ constexpr double STPMX = BROYDEN_STPMX;     // Maximum step size
 // Define global variables
 std::vector<double> fvec(NP);
 
-// Function to evaluate the system of nonlinear equations
-std::vector<double> funcv(const std::vector<double>& x) {
-    std::vector<double> f(3);
-    f[0] = x[0] * x[0] + x[1] * x[1] + x[2] * x[2] - 3;
-    f[1] = x[0] * x[1] * x[2] - 1;
-    f[2] = x[0] + x[1] + x[2] - 3;
-    return f;
-}
-
 // Objective function to minimize: 0.5 * ||f(x)||^2
-double fmin(const std::vector<double>& x) {
+double fmin(const std::vector<double>& x, std::function<std::vector<double>(const std::vector<double>&)> funcv) {
     fvec = funcv(x);
     double sum = 0.0;
     for (double val : fvec) {
@@ -69,7 +61,7 @@ std::vector<double> gaussElimination(const std::vector<std::vector<double>> &A_i
 }
 
 // Broyden’s method for solving f(x) = 0
-std::vector<double> broyden(std::vector<double>& x) {
+std::vector<double> broyden(std::vector<double>& x, std::function<std::vector<double>(const std::vector<double>&)> funcv) {
     int n = x.size();
 
     std::vector<std::vector<double>> B(n, std::vector<double>(n, 0.0));
@@ -97,7 +89,7 @@ std::vector<double> broyden(std::vector<double>& x) {
 
         // Compute new function values
         fvec = funcv(x);
-        if (std::sqrt(fmin(x)) < TOLF) {
+        if (std::sqrt(fmin(x, funcv)) < TOLF) {
             return fvec; // Converged successfully
         }
 
@@ -120,7 +112,7 @@ std::vector<double> broyden(std::vector<double>& x) {
             dx_norm += d * d;
         }
         if (dx_norm < EPS) {
-            return; // Avoid division by zero
+            std::cerr << "Error: Division by zero."; // Avoid division by zero
         }
 
         for (int i = 0; i < n; ++i) {

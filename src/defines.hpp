@@ -7,11 +7,17 @@
 //#define USE_TM1
 
 /* PARTICLES : Defines particles in the system */
-#define USE_NUCLEONS
-//#define USE_HYPERONS
+//#define USE_NUCLEONS
+#define USE_HYPERONS
 
 /* MAGNETIC FIELD : Defines magnetic field in the system */
-//#define USE_MAGNETIC_FIELD
+#define USE_MAGNETIC_FIELD
+//#define USE_BI_MAGNETIC_FIELD
+//#define USE_MODMAX_MAGNETIC_FIELD
+
+/* LSV:  */
+//#define LSV_TERMO_A
+//#define LSV_TERMO_ISOLADO
 
 /* BROYDEN: Defines Broyden tolerances and precision */
 #define BROYDEN_EPS 1.0e-19
@@ -35,6 +41,16 @@
 #error "More than one particle type is defined. Please define only one."
 #endif
 
+// Multiple definitions of magnetic field
+#if defined(MAGNETIC_FIELD) + defined(BI_MAGNETIC_FIELD) + defined(MODMAX_MAGNETIC_FIELD) > 1
+#error "More than one magnetic field type is defined. Please define only one."
+#endif
+
+// Multiple definitions of LSV
+#if defined(LSV_TERMO_A) + defined(LSV_TERMO_ISOLADO) > 1
+#error "More than one LSV type is defined. Please define only one."
+#endif
+
 
 // --------------------------------------------------------------------------------
 // Define global variables
@@ -48,8 +64,8 @@
 #define mr 770.0f/m          // Mass of rho (isovector) meson in MeV divided by nucleon mass
 #define qe sqrt(4.0f * pi / 137.0f) // Electric charge in natural units
 #define bc ml[0]**2/qe       // Critical magnetic field in natural units
-#define alpha 3.0f
-#define beta 1.0e-2f
+#define alphaa 3.0f
+#define betaa 1.0e-2f
 
 // Parametrization
 #ifdef USE_GM3
@@ -63,7 +79,7 @@
     #define xs 0.7f                 // 
     #define xv 0.783f               //
 #elif defined(USE_GM1)
-    #define n0 = 0.153f             // Saturation density in fm^-3
+    #define n0 0.153f             // Saturation density in fm^-3
     #define gs sqrt(11.785f)/hc*m   // Couping constant for sigma
     #define gv sqrt(7.148f)/hc*m    // Couping constant for omega
     #define gr sqrt(4.41f)/hc*m     // Couping constant for rho

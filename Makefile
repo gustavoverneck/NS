@@ -1,32 +1,41 @@
-# Compiler and flags
+# Compilador
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall -O2
 
-# Executable name
-TARGET = broyden
+# Flags de compilação
+CXXFLAGS = -Wall -Wextra -std=c++17 -Iinclude
 
-# Source and object files
-SRC = main.cpp broyden.cpp
-OBJ = $(SRC:.cpp=.o)
+# Diretório de build
+BUILD_DIR = build
 
-# Default rule: build the executable
+# Nome do executável
+TARGET = $(BUILD_DIR)/my_program
+
+# Lista de arquivos fonte
+SRCS = src/broyden.cpp src/ns.cpp src/setup.cpp src/main.cpp
+
+# Lista de arquivos objeto (gerados no diretório build)
+OBJS = $(patsubst src/%.cpp, $(BUILD_DIR)/%.o, $(SRCS))
+
+# Regra padrão
 all: $(TARGET)
 
-# Compile object files
-%.o: %.cpp broyden.h
+# Regra para compilar o executável
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+
+# Regra para compilar arquivos objeto
+$(BUILD_DIR)/%.o: src/%.cpp
+	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Link object files into the final executable
-$(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) $(OBJ) -o $(TARGET)
+# Regra para limpar os arquivos gerados
+clean:
+	rm -rf $(BUILD_DIR)
+	echo "Build files removed."
 
-# Run the program
+# Regra para executar o programa
 run: $(TARGET)
 	./$(TARGET)
 
-# Clean build files
-clean:
-	rm -f $(OBJ) $(TARGET)
-
-# Clean and rebuild
-rebuild: clean all
+# Garante que as regras all, clean e run não sejam confundidas com arquivos
+.PHONY: all clean run

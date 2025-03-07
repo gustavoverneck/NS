@@ -1,18 +1,9 @@
-#include <setup.hpp>
+#include "setup.hpp"
 
 void main_setup() {
-    
-    std::vector<double> x = {1.5, 1.5, 1.5}; // Initial guess
-
-    std::cout << "Initial guess: ";
-    for (double xi : x) std::cout << xi << " ";
-    std::cout << std::endl;
-
-    // Solve the system using Broyden's method
-    broyden(x);
-
-    // Display the solution
-    std::cout << "Solution found: ";
-    for (double xi : x) std::cout << xi << " ";
-    std::cout << std::endl;
+    NS neutron_star(0.1f, 1.50f, 0.01f, 1.0e15f);
+    neutron_star.initialize();
+    for (uint i = 0; i < neutron_star.npoints; ++i) {
+        neutron_star.solve();
+    }
 }

@@ -6,6 +6,7 @@
 #include <vector>    // For std::vector
 #include <cmath>     // For std::abs, std::sqrt, etc.
 #include <algorithm> // For std::max
+#include <functional> // For std::function
 
 
 // Global variables (extern to avoid multiple definition errors)
@@ -25,4 +26,4 @@ std::vector<double> gaussElimination(const std::vector<std::vector<double>>& A_i
                                      const std::vector<double>& b_in);
 
 // Implements Broyden's method to solve f(x)=0
-std::vector<double> broyden(std::vector<double>& x);
+std::vector<double> broyden(std::vector<double>& x, std::function<std::vector<double>(const std::vector<double>&)> funcv);  

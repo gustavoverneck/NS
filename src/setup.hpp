@@ -1,6 +1,6 @@
-#include "ns.hpp"
+#pragma once
 
 #include "defines.hpp"
 #include "ns.hpp"
 
-void main_setup() {};
+void main_setup();
